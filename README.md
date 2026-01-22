@@ -1,4 +1,3 @@
-# HomeLab
 # 📚 Self-Hosted Library Automation Stack (Komga + Mylar + LazyLibrarian)
 
 A self-hosted media library automation stack for managing **comics** and **ebooks**, including metadata enrichment, automated processing, and a clean reading experience through a browser-based library server.
@@ -159,18 +158,6 @@ This project helped me build hands-on experience with:
 - Add monitoring/health checks (service uptime + alerts)
 - Add backup strategy for config + library metadata
 - Add automated Kindle delivery workflow (email/send-to-device)
-
----
-
-## 📷 Screenshots
-
-Add screenshots in a folder like `/screenshots` and link them here:
-
-```md
-![Prowlarr Indexers](screenshots/prowlarr-indexers.png)
-![Komga Library](screenshots/komga-library.png)
-![LazyLibrarian Search](screenshots/lazylibrarian-search.png)
-```
 
 ---
 

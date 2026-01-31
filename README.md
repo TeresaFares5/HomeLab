@@ -1,4 +1,4 @@
-# 📚 Self-Hosted Library Automation Stack (Komga + Mylar + LazyLibrarian)
+# Self-Hosted Library Automation Stack (Komga + Mylar + LazyLibrarian)
 
 A self-hosted media library automation stack for managing **comics** and **ebooks**, including metadata enrichment, automated processing, and a clean reading experience through a browser-based library server.
 
@@ -6,7 +6,7 @@ This project demonstrates practical skills in **Linux server administration**, *
 
 ---
 
-## ✨ What this project does
+## What this project does
 
 - Centralises **comics + ebooks** into a structured library
 - Uses an indexer manager to **search and manage sources**
@@ -17,7 +17,7 @@ This project demonstrates practical skills in **Linux server administration**, *
 
 ---
 
-## 🧰 Stack Overview
+## Stack Overview
 
 | Tool | Purpose |
 |------|---------|
@@ -29,7 +29,7 @@ This project demonstrates practical skills in **Linux server administration**, *
 
 ---
 
-## 🔁 Workflow (High Level)
+## Workflow (High Level)
 
 ```text
 Indexers (via Prowlarr)
@@ -47,7 +47,7 @@ Komga / Kindle-ready library
 
 ---
 
-## 🗂️ Suggested Folder Structure
+## Suggested Folder Structure
 
 This structure keeps downloads separate from final libraries:
 
@@ -99,7 +99,7 @@ Komga reads from the final library folders (not the downloads folder) for a clea
 
 ---
 
-## 🔐 Access & Security Notes
+## Access & Security Notes
 
 This stack can be hosted in a few ways depending on your environment:
 
@@ -115,24 +115,24 @@ When exposing services externally, recommended best practices include:
 
 ---
 
-## 🧪 Troubleshooting Highlights
+## Troubleshooting Highlights
 
 Some common issues I worked through during setup:
 
-### ❗ Indexers blocked / access denied
+### Indexers blocked / access denied
 Some indexers may be protected by bot detection or require specific configuration.
 Fixes often include:
 - Switching to supported indexers
 - Ensuring the correct base URL / API settings
 - Confirming the indexer works directly inside Prowlarr first
 
-### ❗ “No results” or “metadata missing”
+### “No results” or “metadata missing”
 Metadata providers sometimes require:
 - Enabling the correct metadata sources
 - Confirming API keys (where required)
 - Matching author/series names correctly
 
-### ❗ Permissions / folder access errors
+### Permissions / folder access errors
 On Linux, automation apps must have read/write permissions to:
 - downloads folder
 - library folder
@@ -140,7 +140,7 @@ On Linux, automation apps must have read/write permissions to:
 
 ---
 
-## 📌 What I learned (Portfolio Summary)
+## What I learned
 
 This project helped me build hands-on experience with:
 
@@ -152,7 +152,7 @@ This project helped me build hands-on experience with:
 
 ---
 
-## 🧾 Future Improvements
+## Future Improvements
 
 - Add Docker Compose deployment for easier portability
 - Add monitoring/health checks (service uptime + alerts)
@@ -161,6 +161,6 @@ This project helped me build hands-on experience with:
 
 ---
 
-## ⚠️ Disclaimer
+## Disclaimer
 
 This project is shared for **educational and technical demonstration purposes**, focusing on automation, server administration, and system integration.

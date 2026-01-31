@@ -74,7 +74,7 @@ Example paths used in my setup:
 
 ---
 
-## 🔌 App Integrations
+## App Integrations
 
 ### Prowlarr → Mylar / LazyLibrarian
 Prowlarr acts as the single source of truth for indexers, so apps don’t need separate indexer configuration.

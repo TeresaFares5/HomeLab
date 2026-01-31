@@ -4,6 +4,8 @@ A self-hosted media library automation stack for managing **comics** and **ebook
 
 This project demonstrates practical skills in **Linux server administration**, **service management**, **networking**, and **automation workflows** across multiple integrated applications.
 
+![Komga Screenshot](assets/Komga.png)
+
 ---
 
 ## What this project does

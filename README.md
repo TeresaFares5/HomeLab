@@ -1,168 +1,376 @@
-# Self-Hosted Library Automation Stack (Komga + Mylar + LazyLibrarian)
+# Teresa's HomeLab
 
-A self-hosted media library automation stack for managing **comics** and **ebooks**, including metadata enrichment, automated processing, and a clean reading experience through a browser-based library server.
+A self-hosted Ubuntu home server project built from scratch to host personal websites, dashboards, backup monitoring, Docker apps, and remote-access services.
 
-This project demonstrates practical skills in **Linux server administration**, **service management**, **networking**, and **automation workflows** across multiple integrated applications.
-
-![Komga Screenshot](assets/Komga.png)
+This project is designed as a practical home lab for learning Linux server administration, Docker, reverse proxying, remote access, backups, monitoring, and self-hosted web services.
 
 ---
 
-## What this project does
+## Overview
 
-- Centralises **comics + ebooks** into a structured library
-- Uses an indexer manager to **search and manage sources**
-- Automatically sends downloads to a download client
-- Imports and organises completed downloads into library folders
-- Enhances libraries with **metadata** (covers, author info, series info)
-- Provides a clean UI for browsing and reading content
+This HomeLab runs on an Ubuntu server and provides a central dashboard for the services I host. It includes remote access, public subdomains, Docker-based apps, a portfolio website, service health checks, and backup status monitoring.
+
+The goal of this setup is to create a reliable personal server environment where I can host projects, test infrastructure ideas, and build real-world IT skills.
 
 ---
 
-## Stack Overview
+## What I Set Up
 
-| Tool | Purpose |
-|------|---------|
-| **Komga** | Comic/Manga library server for browsing and reading |
-| **Mylar** | Comic automation (search, monitor series, import + rename) |
-| **LazyLibrarian** | Ebook automation + metadata management |
-| **Prowlarr** | Indexer manager shared across multiple apps |
-| **qBittorrent** | Download client used by the automation tools |
+### Ubuntu Server
+
+- Installed and configured Ubuntu Server as the main operating system.
+- Connected the server to Wi-Fi during setup.
+- Configured remote access so the server can be managed without needing a monitor or keyboard.
+- Confirmed services can automatically start again after reboot.
+- Set up SSH access for command-line administration.
+- Used terminal tools such as `nano`, `systemctl`, `docker compose`, and Linux service commands.
 
 ---
 
-## Workflow (High Level)
+### Remote Access
 
-```text
-Indexers (via Prowlarr)
-        ↓
-Mylar / LazyLibrarian (search + monitor)
-        ↓
-qBittorrent (downloads)
-        ↓
-Completed Downloads folder
-        ↓
-Library Import + Rename + Metadata
-        ↓
-Komga / Kindle-ready library
+Remote access was configured so the server can be managed from another device.
+
+#### Tailscale
+
+- Installed and configured Tailscale for secure private remote access.
+- Used Tailscale to connect to the server over a private VPN-style network.
+- Confirmed Tailscale starts automatically after reboot.
+- Used Tailscale IPs for local/private access to services.
+
+#### SSH
+
+- Enabled SSH access to the Ubuntu server.
+- Used SSH to manage files, services, Docker containers, and configuration remotely.
+
+---
+
+### Cloudflare Tunnel
+
+Cloudflare Tunnel was configured to expose selected services publicly without opening router ports.
+
+- Installed and configured `cloudflared`.
+- Created a systemd service for Cloudflare Tunnel.
+- Configured the tunnel to run automatically after reboot.
+- Used Cloudflare DNS/subdomains to route public URLs to internal services.
+- Troubleshot Cloudflare tunnel issues including local service availability and systemd service configuration.
+
+Example service configuration checked:
+
+```ini
+[Unit]
+Description=cloudflared
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+TimeoutStartSec=15
+Type=notify
+ExecStart=/usr/bin/cloudflared --no-autoupdate --config /etc/cloudflared/config.yml tunnel run
+Restart=on-failure
+RestartSec=5s
+
+[Install]
+WantedBy=multi-user.target
 ```
 
 ---
 
-## Suggested Folder Structure
+### Docker and Docker Compose
 
-This structure keeps downloads separate from final libraries:
+Docker was used to run services in containers.
 
-```text
-/home/<user>/
-  Downloads/
-    Comics/
-    Books/
-  Media/
-    ComicsLibrary/
-    BooksLibrary/
+- Installed Docker and Docker Compose.
+- Created dedicated folders for different apps.
+- Used `docker-compose.yml` files to define services.
+- Restarted and checked containers from the terminal.
+- Used Docker to host dashboard and app services.
+- Used Dockge as a web interface for managing Docker Compose stacks.
+
+Useful commands used during setup:
+
+```bash
+docker ps
+sudo docker compose up -d
+sudo docker compose down
+sudo docker compose restart
+sudo docker compose logs -f
 ```
 
-Example paths used in my setup:
+---
 
-- Comics downloads: `/home/teresa-fares/Downloads/Comics/`
-- (Optional) Books downloads: `/home/teresa-fares/Downloads/Books/`
-- Comics library: `/home/teresa-fares/Media/ComicsLibrary/`
-- Books library: `/home/teresa-fares/Media/BooksLibrary/`
+## Dashboard
 
-> Folder paths can be adjusted depending on your server layout.
+A central dashboard was created to display the hosted services and server-related information.
+
+The dashboard acts as the main landing page for the HomeLab and includes links/status cards for apps and websites.
+
+### Dashboard Features
+
+- App/service cards.
+- Links to hosted services.
+- Health/status indicators.
+- Backup status card.
+- Website card for the portfolio.
+- Dockge health card.
+- Clean visual interface for accessing everything from one place.
+
+### Services Added to the Dashboard
+
+- Portfolio website.
+- Dockge.
+- Backup status.
+- Other self-hosted services as they are added.
 
 ---
 
-## App Integrations
+## Portfolio Website Hosting
 
-### Prowlarr → Mylar / LazyLibrarian
-Prowlarr acts as the single source of truth for indexers, so apps don’t need separate indexer configuration.
+A personal portfolio website was added to the HomeLab.
 
-**Benefits:**
-- One place to manage indexers
-- Easier troubleshooting
-- Consistent settings across apps
-
----
-
-### Mylar / LazyLibrarian → qBittorrent
-Both automation apps are configured to send downloads to **qBittorrent**, then monitor the completed downloads folder for importing.
-
-**Key settings to confirm:**
-- Download client host + port
-- Category tags (optional but recommended)
-- Completed download folder access permissions
+- Hosted the portfolio on the server.
+- Connected the website to the dashboard.
+- Fixed server-side display issues where only the CSS gradient was showing.
+- Confirmed the website loaded correctly after troubleshooting.
+- Added the website as a dashboard card.
+- Planned use of the website favicon as the dashboard icon.
 
 ---
 
-### Komga → Library Folders
-Komga reads from the final library folders (not the downloads folder) for a clean library experience.
+## Dockge
+
+Dockge was set up to manage Docker Compose stacks from a web interface.
+
+- Installed Dockge using Docker Compose.
+- Confirmed Dockge works locally.
+- Connected Dockge to the dashboard.
+- Configured a public Cloudflare subdomain for Dockge.
+- Troubleshot local and public access issues.
+- Confirmed Dockge health status appears on the dashboard.
+
+Example public URL format:
+
+```text
+dockge.example.com
+```
 
 ---
 
-## Access & Security Notes
+## Backup System
 
-This stack can be hosted in a few ways depending on your environment:
+A backup system was configured for the HomeLab.
 
-- **Local-only access** (recommended for simplest security)
-- **VPN access**
-- **Reverse proxy / secure tunnel** (if remote access is required)
+### GitHub Backup Repository
 
-When exposing services externally, recommended best practices include:
-- Strong passwords + unique credentials per service
-- Restricting access via authentication and/or IP allowlists
-- Using HTTPS where possible
-- Avoiding direct exposure of download clients
+Backups are pushed to a GitHub repository:
+
+```text
+https://github.com/TeresaFares5/HomeLabBackups.git
+```
+
+### Backup Features
+
+- Created a backup workflow for important HomeLab files.
+- Connected the backup system to GitHub.
+- Added backup status output to the dashboard.
+- Created a status JSON file to display backup information.
+- Added a dashboard card showing backup status.
+- Tested running backups manually.
+
+### Backup Status
+
+The dashboard was configured to show backup status from a JSON file.
+
+Example status file path:
+
+```text
+/status/backup-status.json
+```
+
+The backup status card can show information such as:
+
+- Last backup date/time.
+- Backup success/failure state.
+- Backup destination.
+- Repository status.
+
+### Manual Backup Test
+
+Backups can be manually tested from the server using the backup script/command created during setup.
+
+Example workflow:
+
+```bash
+cd ~/homelab
+./backup.sh
+```
 
 ---
 
-## Troubleshooting Highlights
+## System Services and Auto Start
 
-Some common issues I worked through during setup:
+Important services were configured to run automatically after reboot.
 
-### Indexers blocked / access denied
-Some indexers may be protected by bot detection or require specific configuration.
-Fixes often include:
-- Switching to supported indexers
-- Ensuring the correct base URL / API settings
-- Confirming the indexer works directly inside Prowlarr first
+Configured services include:
 
-### “No results” or “metadata missing”
-Metadata providers sometimes require:
-- Enabling the correct metadata sources
-- Confirming API keys (where required)
-- Matching author/series names correctly
+- Tailscale.
+- SSH.
+- Cloudflare Tunnel.
+- Docker.
+- Docker containers managed with Docker Compose.
+- Dockge.
+- Hosted dashboard and website services.
 
-### Permissions / folder access errors
-On Linux, automation apps must have read/write permissions to:
-- downloads folder
-- library folder
-- temporary import folders
+Useful service commands:
+
+```bash
+sudo systemctl status cloudflared
+sudo systemctl restart cloudflared
+sudo systemctl enable cloudflared
+sudo systemctl status tailscaled
+sudo systemctl status ssh
+```
 
 ---
 
-## What I learned
+## Reboot and Service Checks
 
-This project helped me build hands-on experience with:
+The server can be rebooted from the terminal:
 
-- Linux server setup and troubleshooting
-- Application integration (API keys, service linking, download clients)
-- Folder permissions and automated file handling
-- Networking concepts (local access vs remote access)
-- Maintaining a stable, repeatable workflow across multiple services
+```bash
+sudo reboot
+```
+
+After reboot, services can be checked with:
+
+```bash
+systemctl status ssh
+systemctl status tailscaled
+systemctl status cloudflared
+docker ps
+```
+
+---
+
+## Skills Practised
+
+This HomeLab helped me practise real-world infrastructure and support skills, including:
+
+- Linux server setup.
+- Ubuntu Server administration.
+- SSH remote management.
+- Tailscale remote access.
+- Cloudflare Tunnel configuration.
+- DNS and public subdomain routing.
+- Docker and Docker Compose.
+- Docker stack management with Dockge.
+- Web hosting.
+- Dashboard setup and customisation.
+- Backup automation.
+- GitHub repository backups.
+- JSON status monitoring.
+- Troubleshooting local and public service access.
+- Systemd service management.
+- Server reboot testing.
+- Service health checks.
+
+---
+
+## Technologies Used
+
+- Ubuntu Server
+- Linux CLI
+- SSH
+- Tailscale
+- Cloudflare Tunnel
+- Docker
+- Docker Compose
+- Dockge
+- GitHub
+- HTML
+- CSS
+- JavaScript
+- JSON
+- systemd
+
+---
+
+## Folder Structure Example
+
+Example HomeLab folder structure:
+
+```text
+homelab/
+├── dashboard/
+├── dockge/
+├── backups/
+├── status/
+│   └── backup-status.json
+├── scripts/
+│   └── backup.sh
+└── docker-compose.yml
+```
+
+---
+
+## Public Safety Notes
+
+This README is written for a public GitHub repository, so private information should not be included.
+
+Do not publish:
+
+- Real server IP addresses.
+- Private keys.
+- Cloudflare tunnel credentials.
+- Tailscale auth keys.
+- Passwords.
+- `.env` files.
+- Backup tokens.
+- SSH keys.
+
+Use placeholders such as:
+
+```text
+YOUR-SERVER-IP
+example.com
+service.example.com
+```
+
+---
+
+## Current Status
+
+The HomeLab currently has:
+
+- A working Ubuntu server.
+- Remote access through Tailscale and SSH.
+- Public access through Cloudflare Tunnel.
+- A central dashboard.
+- A hosted portfolio website.
+- Dockge for Docker Compose management.
+- GitHub-based backups.
+- Dashboard backup status monitoring.
+- Services configured to start after reboot.
 
 ---
 
 ## Future Improvements
 
-- Add Docker Compose deployment for easier portability
-- Add monitoring/health checks (service uptime + alerts)
-- Add backup strategy for config + library metadata
-- Add automated Kindle delivery workflow (email/send-to-device)
+Planned improvements include:
+
+- Add more services to the dashboard.
+- Add server CPU, RAM, disk, and uptime stats.
+- Add last reboot time.
+- Add a safe reboot button for the server.
+- Add more automated health checks.
+- Improve backup reporting.
+- Add alerting for failed backups or offline services.
+- Document each service in more detail.
 
 ---
 
-## Disclaimer
+## Purpose
 
-This project is shared for **educational and technical demonstration purposes**, focusing on automation, server administration, and system integration.
+This HomeLab is a personal learning project that demonstrates hands-on experience with server administration, self-hosting, networking, automation, backups, and web hosting.
+
+It shows that I can build, troubleshoot, document, and maintain a small infrastructure environment from scratch.

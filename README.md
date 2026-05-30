@@ -4,6 +4,8 @@ A self-hosted Ubuntu home server project built from scratch to host personal web
 
 This project is designed as a practical home lab for learning Linux server administration, Docker, reverse proxying, remote access, backups, monitoring, and self-hosted web services.
 
+![Dashboard Screenshot](images/dashboard.png))
+
 ---
 
 ## Overview

@@ -295,49 +295,6 @@ This HomeLab helped me practise real-world infrastructure and support skills, in
 
 ---
 
-## Folder Structure Example
-
-Example HomeLab folder structure:
-
-```text
-homelab/
-├── dashboard/
-├── dockge/
-├── backups/
-├── status/
-│   └── backup-status.json
-├── scripts/
-│   └── backup.sh
-└── docker-compose.yml
-```
-
----
-
-## Public Safety Notes
-
-This README is written for a public GitHub repository, so private information should not be included.
-
-Do not publish:
-
-- Real server IP addresses.
-- Private keys.
-- Cloudflare tunnel credentials.
-- Tailscale auth keys.
-- Passwords.
-- `.env` files.
-- Backup tokens.
-- SSH keys.
-
-Use placeholders such as:
-
-```text
-YOUR-SERVER-IP
-example.com
-service.example.com
-```
-
----
-
 ## Current Status
 
 The HomeLab currently has:

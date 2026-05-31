@@ -1,8 +1,8 @@
 # Teresa's HomeLab
 
-A self-hosted Ubuntu home server project built from scratch to host personal websites, dashboards, backup monitoring, Docker apps, and remote-access services.
+A self-hosted Ubuntu home server project built from scratch to host personal websites, dashboards, Docker apps, backup monitoring, remote-access services, and a personal digital book library.
 
-This project is designed as a practical home lab for learning Linux server administration, Docker, reverse proxying, remote access, backups, monitoring, and self-hosted web services.
+This project is a practical HomeLab for learning Linux server administration, Docker, reverse proxying, remote access, backups, monitoring, web hosting, and self-hosted media/library services.
 
 ![Dashboard Screenshot](Dashboard.png)
 
@@ -12,9 +12,9 @@ This project is designed as a practical home lab for learning Linux server admin
 
 ## Overview
 
-This HomeLab runs on an Ubuntu server and provides a central dashboard for the services I host. It includes remote access, public subdomains, Docker-based apps, a portfolio website, service health checks, and backup status monitoring.
+This HomeLab runs on an Ubuntu server and provides a central dashboard for the services I host. It includes private remote access, public subdomains, Docker-based apps, a hosted portfolio website, a digital book library, service health checks, and backup status monitoring.
 
-The goal of this setup is to create a reliable personal server environment where I can host projects, test infrastructure ideas, and build real-world IT skills.
+The goal of this setup is to create a reliable personal server environment where I can host projects, test infrastructure ideas, document real troubleshooting work, and build practical IT skills.
 
 ---
 
@@ -23,29 +23,30 @@ The goal of this setup is to create a reliable personal server environment where
 ### Ubuntu Server
 
 - Installed and configured Ubuntu Server as the main operating system.
-- Connected the server to Wi-Fi during setup.
+- Connected the server to the network during setup.
 - Configured remote access so the server can be managed without needing a monitor or keyboard.
-- Confirmed services can automatically start again after reboot.
 - Set up SSH access for command-line administration.
-- Used terminal tools such as `nano`, `systemctl`, `docker compose`, and Linux service commands.
+- Confirmed key services can automatically start again after reboot.
+- Used Linux tools such as `nano`, `systemctl`, `docker compose`, SSH, and service logs for administration and troubleshooting.
 
 ---
 
 ### Remote Access
 
-Remote access was configured so the server can be managed from another device.
+Remote access was configured so the server can be managed securely from another device.
 
 #### Tailscale
 
 - Installed and configured Tailscale for secure private remote access.
 - Used Tailscale to connect to the server over a private VPN-style network.
 - Confirmed Tailscale starts automatically after reboot.
-- Used Tailscale IPs for local/private access to services.
+- Used the private Tailscale network for local/private access to services.
 
 #### SSH
 
 - Enabled SSH access to the Ubuntu server.
 - Used SSH to manage files, services, Docker containers, and configuration remotely.
+- Used SSH for troubleshooting service issues, updating configuration files, and checking logs.
 
 ---
 
@@ -57,7 +58,7 @@ Cloudflare Tunnel was configured to expose selected services publicly without op
 - Created a systemd service for Cloudflare Tunnel.
 - Configured the tunnel to run automatically after reboot.
 - Used Cloudflare DNS/subdomains to route public URLs to internal services.
-- Troubleshot Cloudflare tunnel issues including local service availability and systemd service configuration.
+- Troubleshot Cloudflare tunnel issues including local service availability, invalid URLs, and systemd service configuration.
 
 Example service configuration checked:
 
@@ -107,7 +108,7 @@ sudo docker compose logs -f
 
 A central dashboard was created to display the hosted services and server-related information.
 
-The dashboard acts as the main landing page for the HomeLab and includes links/status cards for apps and websites.
+The dashboard acts as the main landing page for the HomeLab and includes links/status cards for apps, websites, and tools.
 
 ### Dashboard Features
 
@@ -117,13 +118,16 @@ The dashboard acts as the main landing page for the HomeLab and includes links/s
 - Backup status card.
 - Website card for the portfolio.
 - Dockge health card.
+- Book library card.
 - Clean visual interface for accessing everything from one place.
 
 ### Services Added to the Dashboard
 
 - Portfolio website.
 - Dockge.
+- Kavita book library.
 - Backup status.
+- Server status/stat cards.
 - Other self-hosted services as they are added.
 
 ---
@@ -138,6 +142,73 @@ A personal portfolio website was added to the HomeLab.
 - Confirmed the website loaded correctly after troubleshooting.
 - Added the website as a dashboard card.
 - Planned use of the website favicon as the dashboard icon.
+
+---
+
+## Book Library
+
+A self-hosted book library was added so PDFs and other digital books can be stored, organised, and accessed through the HomeLab.
+
+### Kavita
+
+Kavita was set up as the main book library service.
+
+- Deployed Kavita as a self-hosted library app.
+- Added Kavita to the HomeLab dashboard.
+- Configured a local/private service URL for library access.
+- Tested library access from the browser.
+- Used Kavita to scan a mounted books folder and display available books.
+- Confirmed that books can be added manually by copying files into the library folder.
+
+### Book Storage
+
+Books are stored in a dedicated folder on the server. Kavita reads this folder as a library source.
+
+Example folder structure:
+
+```text
+homelab/
+└── books/
+    ├── Book One.pdf
+    ├── Book Two.pdf
+    └── Author Name/
+        └── Book Three.pdf
+```
+
+### Manually Adding Books
+
+Books can be manually copied from a PC to the server and then scanned by Kavita.
+
+Example using `scp` from a PC or WSL terminal:
+
+```bash
+scp "C:/path/to/book.pdf" username@server-address:/home/username/homelab/books/
+```
+
+Example copying a whole folder of books:
+
+```bash
+scp -r "C:/path/to/books/*" username@server-address:/home/username/homelab/books/
+```
+
+After copying the books across:
+
+1. Open Kavita.
+2. Go to the library settings.
+3. Run a library scan.
+4. Confirm the new PDFs appear in the library.
+
+### Public/Private Access
+
+The book library can be accessed privately through Tailscale or publicly through a Cloudflare Tunnel subdomain if enabled.
+
+For a public README, private IP addresses, usernames, and exact internal paths should be replaced with examples or placeholders.
+
+Example public URL format:
+
+```text
+books.example.com
+```
 
 ---
 
@@ -166,10 +237,12 @@ A backup system was configured for the HomeLab.
 
 ### GitHub Backup Repository
 
-Backups are pushed to a GitHub repository:
+Backups are pushed to a GitHub repository. For public documentation, repository URLs and tokens should be kept private unless the repository is intentionally public.
+
+Example repository format:
 
 ```text
-https://github.com/TeresaFares5/HomeLabBackups.git
+https://github.com/username/repository-name.git
 ```
 
 ### Backup Features
@@ -223,6 +296,7 @@ Configured services include:
 - Docker.
 - Docker containers managed with Docker Compose.
 - Dockge.
+- Kavita book library.
 - Hosted dashboard and website services.
 
 Useful service commands:
@@ -233,6 +307,7 @@ sudo systemctl restart cloudflared
 sudo systemctl enable cloudflared
 sudo systemctl status tailscaled
 sudo systemctl status ssh
+docker ps
 ```
 
 ---
@@ -270,6 +345,8 @@ This HomeLab helped me practise real-world infrastructure and support skills, in
 - Docker stack management with Dockge.
 - Web hosting.
 - Dashboard setup and customisation.
+- Self-hosted book library setup.
+- Manual file transfer with `scp`.
 - Backup automation.
 - GitHub repository backups.
 - JSON status monitoring.
@@ -290,6 +367,7 @@ This HomeLab helped me practise real-world infrastructure and support skills, in
 - Docker
 - Docker Compose
 - Dockge
+- Kavita
 - GitHub
 - HTML
 - CSS
@@ -308,6 +386,7 @@ The HomeLab currently has:
 - Public access through Cloudflare Tunnel.
 - A central dashboard.
 - A hosted portfolio website.
+- A self-hosted Kavita book library.
 - Dockge for Docker Compose management.
 - GitHub-based backups.
 - Dashboard backup status monitoring.
@@ -326,12 +405,14 @@ Planned improvements include:
 - Add more automated health checks.
 - Improve backup reporting.
 - Add alerting for failed backups or offline services.
+- Improve book request/search automation.
+- Add automated book metadata management.
 - Document each service in more detail.
 
 ---
 
 ## Purpose
 
-This HomeLab is a personal learning project that demonstrates hands-on experience with server administration, self-hosting, networking, automation, backups, and web hosting.
+This HomeLab is a personal learning project that demonstrates hands-on experience with server administration, self-hosting, networking, automation, backups, media/library hosting, and web hosting.
 
 It shows that I can build, troubleshoot, document, and maintain a small infrastructure environment from scratch.

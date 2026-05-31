@@ -2,7 +2,6 @@
 
 A self-hosted Ubuntu home server project built from scratch to host personal websites, dashboards, Docker apps, backup monitoring, remote-access services, and a personal digital book library.
 
-This project is a practical HomeLab for learning Linux server administration, Docker, reverse proxying, remote access, backups, monitoring, web hosting, and self-hosted media/library services.
 
 ![Dashboard Screenshot](Dashboard.png)
 
@@ -400,14 +399,11 @@ Planned improvements include:
 
 - Add more services to the dashboard.
 - Add server CPU, RAM, disk, and uptime stats.
-- Add last reboot time.
-- Add a safe reboot button for the server.
 - Add more automated health checks.
 - Improve backup reporting.
 - Add alerting for failed backups or offline services.
 - Improve book request/search automation.
 - Add automated book metadata management.
-- Document each service in more detail.
 
 ---
 

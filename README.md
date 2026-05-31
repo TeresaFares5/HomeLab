@@ -7,6 +7,8 @@ A self-hosted Ubuntu home server project built from scratch to host personal web
 
 ![Stats Screenshot](LiveStats.png)
 
+![Book Library](book-library.png)
+
 ---
 
 ## Overview

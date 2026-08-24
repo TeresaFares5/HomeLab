@@ -148,7 +148,7 @@ A personal portfolio website was added to the HomeLab.
 
 ## Book Library
 
-A self-hosted book library was added so PDFs and other digital books can be stored, organised, and accessed through the HomeLab.
+A self-hosted book library was added so EPUBs and other digital books can be stored, organised, and accessed through the HomeLab.
 
 ### Kavita
 
@@ -170,10 +170,10 @@ Example folder structure:
 ```text
 homelab/
 └── books/
-    ├── Book One.pdf
-    ├── Book Two.pdf
+    ├── Book One.epub
+    ├── Book Two.epub
     └── Author Name/
-        └── Book Three.pdf
+        └── Book Three.epub
 ```
 
 ### Manually Adding Books
@@ -183,7 +183,7 @@ Books can be manually copied from a PC to the server and then scanned by Kavita.
 Example using `scp` from a PC or WSL terminal:
 
 ```bash
-scp "C:/path/to/book.pdf" username@server-address:/home/username/homelab/books/
+scp "C:/path/to/book.epub" username@server-address:/home/username/homelab/books/
 ```
 
 Example copying a whole folder of books:
@@ -197,7 +197,7 @@ After copying the books across:
 1. Open Kavita.
 2. Go to the library settings.
 3. Run a library scan.
-4. Confirm the new PDFs appear in the library.
+4. Confirm the new EPUBs appear in the library.
 
 ### Public/Private Access
 
